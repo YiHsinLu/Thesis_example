@@ -61,13 +61,13 @@ maxcitenames=1
 
 \providecommand{\keywordsch}[1]
 {
-  \small	
+  \small  
   \textbf{摘要： }#1
 }
 
 \providecommand{\keywords}[1]
 {
-  \small	
+  \small  
   \textbf{Keywords: }#1
 }
 
@@ -165,10 +165,23 @@ This thesis presented ...
     \hline
     $x_1$ & 1 & 0\\
     \hline
-    $x_2$ & 0 & 1\\
+    \vdots & \vdots & \vdots\\
+    \hline
+    $x_n$ & 0 & 1\\
     \hline
 \end{tabular}
 \end{table}
+
+\section{Equations}
+%%\Large{}=fontsize
+%%\Huge->\huge->\Large->\large->\normalsize->\small->\footnotesize->\scripsize->\tiny
+\begin{equation}\label{equ: reg}
+    \Large{\mathcal{Y} = \mathbb{X}\beta+\epsilon}
+\end{equation}
+
+\begin{equation*}\label{equ: reg}
+    y_i =\beta_0+\beta_1x_1+\epsilon_i,\;i=1,\cdots,n
+\end{equation*}
 
 \section{Figure}
 \begin{figure}[H]
@@ -198,6 +211,7 @@ This thesis presented ...
     \item Chapter \ref{ch: intro}
     \item Section \ref{sec: link}
     \item Table \ref{tab: tab1}
+    \item Euqation (\ref{equ: reg})
     \item Figure \ref{fig: ndhulogo}
 \end{itemize}
 
