@@ -1,0 +1,228 @@
+%%%Compiler: XeLaTex
+\documentclass[12pt,a4paper,oneside]{book}
+\usepackage{indentfirst}
+\usepackage{colortbl}
+\usepackage{amsmath}
+\usepackage{fontspec}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{subfigure}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage{xeCJK}
+    \xeCJKsetup{AutoFakeBold=true, AutoFakeSlant=true}
+    \setCJKmainfont{font.ttf}
+    \setmainfont{Times New Roman}
+\usepackage[english]{babel}
+\usepackage{csquotes}
+\usepackage{amsfonts}
+\usepackage{anyfontsize}
+\usepackage{setspace}
+\usepackage[colorlinks,citecolor=cyan,urlcolor=cyan,ypertexnames=true, linkcolor=blue]{hyperref}
+\urlstyle{same}
+\usepackage{titlesec}
+\pagestyle{plain}
+\usepackage{background}
+\usepackage{blindtext}
+\backgroundsetup{scale = 1, angle = 0, opacity = 0.2,
+  contents = {\includegraphics[height = 6cm]{NDHU_logo.png}}}
+\newcommand\DeactivateBG{\backgroundsetup{contents={}}}
+
+\usepackage[
+style=bwl-FU,
+hyperref=true,
+sorting=none,
+backend=bibtex,
+minbibnames=4,
+mincitenames=1,
+maxbibnames=99,
+maxcitenames=1
+]{biblatex}
+
+\addbibresource{ref.bib}
+
+\newlength{\minbibdepth}
+\setlength{\minbibdepth}{2cm}
+\makeatletter
+\newcount\@entrydepth
+\renewbibmacro*{begentry}{%
+  \global\advance\@entrydepth\@ne
+  \ifnum\@entrydepth>1\relax
+  \else
+    \begin{minipage}[t][\minbibdepth][t]{\linewidth}
+  \fi}
+\renewbibmacro*{finentry}{%
+  \finentry
+  \ifnum\@entrydepth=1\relax
+    \end{minipage}%
+  \fi
+  \global\advance\@entrydepth-\@ne}
+\makeatother
+
+\providecommand{\keywordsch}[1]
+{
+  \small	
+  \textbf{摘要： }#1
+}
+
+\providecommand{\keywords}[1]
+{
+  \small	
+  \textbf{Keywords: }#1
+}
+
+\usepackage{xcolor}
+
+\definecolor{FF40BF}{HTML}{FF40BF}
+\definecolor{B66DDB}{HTML}{B66DDB}
+\renewbibmacro*{cite:labelyear+extrayear}{%
+  \ifentrytype{misc}
+    {}
+    {\iffieldundef{labelyear}
+      {}
+      {\printtext[bibhyperref]{%
+         \printtext{(}\printfield{labelyear}\printfield{extrayear}\printtext{)}}}}}
+
+
+\begin{document}
+\begin{titlepage}
+\DeactivateBG
+   \begin{center}
+        
+       \vspace{3cm} 
+       \vspace{30pt}
+       
+       \fontsize{24}{24}\selectfont  國立東華大學 應用數學系\\
+       \renewcommand{\baselinestretch}{1.5}
+       \fontsize{24}{24}\selectfont 碩士論文\\
+       \renewcommand{\baselinestretch}{1.5}
+       \fontsize{22}{22}\selectfont 指導教授：(你的老闆) $\;$博士\\
+       \vspace{30pt}
+       \fontsize{24}{24}\selectfont
+       
+       \textbf{論文標題}\\
+       \fontsize{14}{14}\selectfont
+       \textbf{\textit{Thesis Title}}\\
+       \vspace{90pt}
+       \begin{figure}[h]
+       \centering
+       \includegraphics[width=6cm]{NDHU_logo.png}
+       \end{figure}
+       \vspace{0.5cm}
+       \fontsize{22}{22}\selectfont 研究生： (你是誰？) $\;$撰\\
+       \vspace{30pt}
+       \fontsize{22}{22}\selectfont 中華民國 ？ 年？ 月
+   \end{center}
+\end{titlepage}
+
+\thispagestyle{empty}
+
+%% Chinese abstract
+\chapter*{\centering 摘要}
+
+這篇論文提供...
+
+\mbox{}
+\vfill
+\keywordsch{論文}%chinese keywords
+
+\thispagestyle{empty}
+
+%English abstract
+\chapter*{\centering Abstract}
+
+This thesis presented ...
+
+\mbox{}
+\vfill
+\keywords{thesis}%keywords
+
+\thispagestyle{empty}
+
+\newpage
+%%Table of Contents
+\setcounter{page}{1}
+{
+  \hypersetup{linkcolor=black}
+  \tableofcontents
+}
+
+\newpage
+
+\chapter{Introduction}
+\label{ch: intro}
+\section{Table}
+
+\begin{table}[H]
+\centering
+\fontsize{20}{20}\selectfont%change the size for the text in table
+\caption{Table}
+\renewcommand{\arraystretch}{1.5}
+\label{tab: tab1}
+\begin{tabular}[t]{|c|c|c|}%c=centering
+    \hline
+    & v1 & v2 \\
+    \hline
+    $x_1$ & 1 & 0\\
+    \hline
+    $x_2$ & 0 & 1\\
+    \hline
+\end{tabular}
+\end{table}
+
+\section{Figure}
+\begin{figure}[H]
+     \centering
+     \includegraphics[width=1\textwidth]{NDHU_logo.png}
+     \caption{NDHU Logo}
+     \label{fig: ndhulogo}
+\end{figure}
+
+\newpage
+\subsection{Sideway Figure}
+\label{fig: sideways}
+
+\begin{sidewaysfigure}
+\begin{figure}[H]
+     \centering
+     \includegraphics[width=0.3\textwidth]{NDHU_logo.png}
+     \caption{NDHU Logo}
+\end{figure}
+\end{sidewaysfigure}
+
+\newpage
+\section{Hyper Links}
+\label{sec: link}
+
+\begin{itemize}
+    \item Chapter \ref{ch: intro}
+    \item Section \ref{sec: link}
+    \item Table \ref{tab: tab1}
+    \item Figure \ref{fig: ndhulogo}
+\end{itemize}
+
+\section{Citation}
+
+\begin{itemize}
+    \item \cite{lu2023art} present a paper or thesis...
+    \item \cite{lu2023misc} is a website...
+    \item \cite{lu2023book} is a book...
+    \item \cite{lu2023online} share a video from YouTube...
+\end{itemize}
+
+\chapter{Methods}
+
+\chapter{Results and Discussion}
+
+\chapter{Conclusions}
+
+\newpage
+
+\printbibliography[title={References}, heading=bibintoc]
+
+\newpage
+
+\appendix 
+\chapter{}
+
+\end{document}
