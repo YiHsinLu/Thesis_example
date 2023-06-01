@@ -5,6 +5,7 @@
 \usepackage{amsmath}
 \usepackage{fontspec}
 \usepackage{graphicx}
+\usepackage[labelfont=bf]{caption}
 \usepackage{float}
 \usepackage{subfigure}
 \usepackage{wrapfig}
@@ -28,46 +29,92 @@
   contents = {\includegraphics[height = 6cm]{NDHU_logo.png}}}
 \newcommand\DeactivateBG{\backgroundsetup{contents={}}}
 
-\usepackage[
-style=bwl-FU,
-hyperref=true,
-sorting=none,
-backend=bibtex,
-minbibnames=4,
-mincitenames=1,
-maxbibnames=99,
-maxcitenames=1
-]{biblatex}
+\usepackage[backend=biber, style=ieee, labeldateparts, sorting=nyvt, maxbibnames=99, maxcitenames=2, mincitenames=1]{biblatex}
 
 \addbibresource{ref.bib}
+\DeclareLabeldate[misc]{%
+  \field{date}
+  \field{year}
+  \field{eventdate}
+  \field{origdate}
+  \field{urldate}
+}
 
-\newlength{\minbibdepth}
-\setlength{\minbibdepth}{2cm}
-\makeatletter
-\newcount\@entrydepth
-\renewbibmacro*{begentry}{%
-  \global\advance\@entrydepth\@ne
-  \ifnum\@entrydepth>1\relax
-  \else
-    \begin{minipage}[t][\minbibdepth][t]{\linewidth}
-  \fi}
-\renewbibmacro*{finentry}{%
-  \finentry
-  \ifnum\@entrydepth=1\relax
-    \end{minipage}%
-  \fi
-  \global\advance\@entrydepth-\@ne}
-\makeatother
+\providebool{cbx:parens}
+
+\newbibmacro*{citeyear}{%
+  \iffieldundef{shorthand}
+    {\iffieldundef{labelyear}
+       {\usebibmacro{cite:label}}
+       {\usebibmacro{cite:labeldate+extradate}}}
+    {\usebibmacro{cite:shorthand}}}
+
+\newbibmacro*{aytcite}{%
+  \ifnameundef{labelname}
+    {\iffieldundef{shorthand}
+       {\usebibmacro{cite:label}%
+        \setunit{%
+          \global\booltrue{cbx:parens}%
+          \printdelim{nonameyeardelim}\bibopenparen}%
+        \ifnumequal{\value{citecount}}{1}
+          {\usebibmacro{prenote}}
+          {}%
+        \usebibmacro{cite:labeldate+extradate}}
+       {\usebibmacro{cite:shorthand}}}
+    {\printnames{labelname}%
+     \setunit{%
+       \global\booltrue{cbx:parens}%
+       \printdelim{nameyeardelim}\bibopenparen}%
+     \ifnumequal{\value{citecount}}{1}
+       {\usebibmacro{prenote}}
+       {}%
+     \usebibmacro{citeyear}}}
+
+\newbibmacro*{cite:shorthand}{%
+  \printtext[bibhyperref]{\printfield{shorthand}}}
+
+\newbibmacro*{cite:label}{%
+  \iffieldundef{label}
+    {\printtext[bibhyperref]{\printfield[citetitle]{labeltitle}}}
+    {\printtext[bibhyperref]{\printfield{label}}}}
+
+\newbibmacro*{cite:labeldate+extradate}{%
+  \iffieldundef{labelyear}
+    {}
+    {\printtext[bibhyperref]{\printlabeldateextra}}}
+
+\newbibmacro*{aytcite:postnote}{%
+  \iffieldundef{postnote}
+    {\ifbool{cbx:parens}
+       {\bibcloseparen}
+       {}}
+    {\ifbool{cbx:parens}
+       {\setunit{\postnotedelim}}
+       {\setunit{\extpostnotedelim\bibopenparen}}%
+     \printfield{postnote}\bibcloseparen}}
+
+\DeclareCiteCommand{\aytcite}
+  {\boolfalse{cbx:parens}}
+  {\usebibmacro{citeindex}%
+   \iffirstcitekey
+     {\setcounter{textcitetotal}{1}}
+     {\stepcounter{textcitetotal}%
+      \aytcitedelim}%
+   \usebibmacro{aytcite}}
+  {\ifbool{cbx:parens}
+     {\bibcloseparen\global\boolfalse{cbx:parens}}
+     {}}
+  {\usebibmacro{aytcite:postnote}}
 
 \providecommand{\keywordsch}[1]
 {
-  \small  
+  \small    
   \textbf{關鍵字： }#1
 }
 
 \providecommand{\keywords}[1]
 {
-  \small  
+  \small    
   \textbf{Keywords: }#1
 }
 
@@ -219,7 +266,13 @@ This thesis presented ...
     \item \cite{lu2023misc} is a website...
     \item \cite{lu2023book} is a book...
     \item \cite{lu2023online} share a video from YouTube...
+    \item \aytcite{lu2023art} present a paper or thesis...
+    \item \aytcite{lu2023misc} is a website...
+    \item \aytcite{lu2023book} is a book...
+    \item \aytcite{lu2023online} share a video from YouTube...
 \end{itemize}
+
+aytcite
 
 \chapter{Methods}
 
